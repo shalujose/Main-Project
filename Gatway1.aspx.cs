@@ -8,7 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 public partial class Gatway1 : System.Web.UI.Page
 {
-    SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\u\Desktop\1\Trai\App_Data\Database.mdf;Integrated Security=True");
+    SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\u\Desktop\br\App_Data\Database.mdf;Integrated Security=True");
    
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -84,8 +84,8 @@ public partial class Gatway1 : System.Web.UI.Page
 
 
 
-
-            Response.Write("<script language='javascript'>window.alert('Your Transaction Successful');window.location='CustomerBankaccount.aspx';</script>");
+            Response.Redirect("Paymentsuccess.aspx");
+       
               
         }
     }
