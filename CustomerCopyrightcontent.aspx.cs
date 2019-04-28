@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 
 public partial class CustomerCopyrightcontent : System.Web.UI.Page
 {
-    SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\u\Desktop\1\Trai\App_Data\Database.mdf;Integrated Security=True");
+    SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=E:\Trai\App_Data\Database.mdf;Integrated Security=True");
    
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -24,8 +24,9 @@ public partial class CustomerCopyrightcontent : System.Web.UI.Page
 
     public void FillVideos()
     {
-
-        string dis = "select * from copyrightvideo where status='Yes' ";
+       // string dis = "select distinct * from copyrightvideo right JOIN banktransaction ON copyrightvideo.id != banktransaction.contentid where customername ='" + Session["name"].ToString() + "' and banktransaction.status=1";
+        string dis = "select distinct * from copyrightvideo  where status='Yes'";
+    
         con.Open();
         SqlDataAdapter ada = new SqlDataAdapter(dis, con);
         DataTable dt = new DataTable();
@@ -94,7 +95,7 @@ public partial class CustomerCopyrightcontent : System.Web.UI.Page
     }
     protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
     {
-        myVideo.Attributes.Add("src", GridView3.SelectedRow.Cells[4].Text);
+        myVideo.Attributes.Add("src", GridView3.SelectedRow.Cells[5].Text);
         MultiView1.ActiveViewIndex = 1;
     }
     protected void Button1_Click(object sender, EventArgs e)
