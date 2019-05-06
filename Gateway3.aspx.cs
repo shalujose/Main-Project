@@ -10,19 +10,18 @@ using System.Configuration;
 using System.IO;
 using System.Text;
 using System.Security.Cryptography;
-public partial class Gatway1 : System.Web.UI.Page
+public partial class Gateway3 : System.Web.UI.Page
 {
     SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=E:\Trai\App_Data\Database.mdf;Integrated Security=True");
    
     protected void Page_Load(object sender, EventArgs e)
     {
-       // Label1.Text = Session["name"].ToString();
-       // Label2.Text = Session["woner"].ToString();
+      
         Label19.Text = Session["price"].ToString();
-        Label25.Text = Session["cname"].ToString();
+      
 
 
-        string str = "select bankname,accholder,accno,ifsccode,amount from bankac where name='" + Session["woner"].ToString() + "'";
+        string str = "select bankname,accholder,accno,ifsccode,amount from bankac where name='Admin'";
         con.Open();
         SqlDataAdapter sda = new SqlDataAdapter(str, con);
         DataTable dt = new DataTable();
@@ -31,11 +30,12 @@ public partial class Gatway1 : System.Web.UI.Page
         {
             Label4.Text = dt.Rows[0]["bankname"].ToString();
 
-           Label5.Text  = this.Decrypt(dt.Rows[0]["accholder"].ToString().Trim());
-            Label7.Text  = this.Decrypt(dt.Rows[0]["accno"].ToString().Trim());
+
+            Label5.Text = this.Decrypt(dt.Rows[0]["accholder"].ToString().Trim());
+            Label7.Text = this.Decrypt(dt.Rows[0]["accno"].ToString().Trim());
 
 
-          
+  
             Label20.Text = dt.Rows[0]["ifsccode"].ToString();
             Label26.Text = dt.Rows[0]["amount"].ToString();
 
@@ -53,22 +53,23 @@ public partial class Gatway1 : System.Web.UI.Page
         {
             Label9.Text = dt1.Rows[0]["bankname"].ToString();
 
-           Label11.Text  = this.Decrypt1(dt1.Rows[0]["accholder"].ToString().Trim());
-           Label21.Text = this.Decrypt1(dt1.Rows[0]["accno"].ToString().Trim());
 
 
+            Label11.Text = this.Decrypt1(dt1.Rows[0]["accholder"].ToString().Trim());
+            Label21.Text = this.Decrypt1(dt1.Rows[0]["accno"].ToString().Trim());
 
-
-  
+   
             Label22.Text = dt1.Rows[0]["ifsccode"].ToString();
             Label27.Text = dt1.Rows[0]["amount"].ToString();
 
         }
         con.Close();
+   
     }
+
     private string Decrypt(string cipherText)
     {
-        string EncryptionKey = Session["woner"].ToString();
+        string EncryptionKey = "Admin";
         byte[] cipherBytes = Convert.FromBase64String(cipherText);
         using (Aes encryptor = Aes.Create())
         {
@@ -108,10 +109,10 @@ public partial class Gatway1 : System.Web.UI.Page
         }
         return cipherText;
     }
+  
     protected void Button1_Click(object sender, EventArgs e)
     {
-      
-        if(TextBox1.Text==Session["psw"].ToString())
+        if (TextBox1.Text == Session["psw"].ToString())
         {
             int i = Convert.ToInt32(Label26.Text);
             int j = Convert.ToInt32(Label27.Text);
@@ -120,9 +121,9 @@ public partial class Gatway1 : System.Web.UI.Page
             camount = i + p;
             cus = j - p;
 
-            string str = "update bankac set amount='" + camount.ToString() + "' where name='" + Session["woner"].ToString() + "'";
+            string str = "update bankac set amount='" + camount.ToString() + "' where name='Admin'";
             con.Open();
-            SqlCommand cmd = new SqlCommand(str,con);
+            SqlCommand cmd = new SqlCommand(str, con);
             cmd.ExecuteNonQuery();
             con.Close();
 
@@ -132,7 +133,7 @@ public partial class Gatway1 : System.Web.UI.Page
             cmd1.ExecuteNonQuery();
             con.Close();
 
-            string str2 = "update banktransaction set status=1,rating=1  where selectedcontent='" + Session["cname"].ToString() + "'";
+            string str2 = "update selectedchannels set status=1 where customername='"+ Session["name"].ToString()+"' and status=0";
             con.Open();
             SqlCommand cmd2 = new SqlCommand(str2, con);
             cmd2.ExecuteNonQuery();
@@ -140,13 +141,10 @@ public partial class Gatway1 : System.Web.UI.Page
 
 
 
-            Response.Redirect("Refresh.aspx");
+            Response.Redirect("Refresh1.aspx");
 
-            //Paymentsuccess.aspx
+            
         }
-    }
-    protected void TextBox1_TextChanged(object sender, EventArgs e)
-    {
-
+   
     }
 }
